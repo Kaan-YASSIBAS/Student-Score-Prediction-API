@@ -71,6 +71,21 @@ The model uses the following features:
 | `attendance_rate` | Student's attendance percentage |
 | `previous_score` | Student's previous exam score |
 
+## Input Validation
+
+The API validates incoming request data using Pydantic.
+
+Validation rules:
+
+| Field | Rule |
+| --- | --- |
+| `hours_studied` | Must be between 0 and 24 |
+| `sleep_hours` | Must be between 0 and 24 |
+| `attendance_rate` | Must be between 0 and 100 |
+| `previous_score` | Must be between 0 and 100 |
+
+Invalid input returns a `422 Unprocessable Entity` response.
+
 ## Target
 
 The model predicts:
