@@ -1,31 +1,39 @@
 # Student Score Prediction API
 
-A simple Machine Learning API built with **FastAPI** and **scikit-learn**.  
+![CI](https://github.com/Kaan-YASSIBAS/student-score-prediction-api/actions/workflows/ci.yml/badge.svg)
+
+A containerized Machine Learning inference API built with **FastAPI** and **scikit-learn**.  
 The project predicts a student's exam score based on study habits and previous performance.
 
 ## Project Overview
 
-This project demonstrates a basic end-to-end Machine Learning workflow:
+This project demonstrates a basic end-to-end Machine Learning and API deployment workflow:
 
-1. Create a small dataset
+1. Create a small sample dataset
 2. Train a Linear Regression model
-3. Save the trained model with Joblib
-4. Load the saved model in a FastAPI application
-5. Expose a prediction endpoint
-6. Containerize the application with Docker
-7. Run the API with Docker Compose
-8. Return the predicted exam score as JSON
+3. Evaluate the model with basic regression metrics
+4. Save the trained model with Joblib as a `.pkl` file
+5. Load the saved model in a FastAPI application
+6. Validate incoming API requests with Pydantic
+7. Expose health check and prediction endpoints
+8. Containerize the application with Docker
+9. Run the API with Docker Compose and a container healthcheck
+10. Test the API with Pytest
+11. Run tests automatically with GitHub Actions CI
 
 ## Tech Stack
 
 - Python
 - FastAPI
+- Pydantic
 - scikit-learn
 - pandas
 - joblib
 - Uvicorn
 - Docker
 - Docker Compose
+- Pytest
+- GitHub Actions
 
 ## Project Structure
 
@@ -40,9 +48,17 @@ student-score-prediction-api/
 ├── scripts/
 │   └── train_model.py
 │
+├── tests/
+│   └── test_api.py
+│
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt
+├── pytest.ini
 ├── README.md
 ├── .dockerignore
 └── .gitignore
@@ -54,11 +70,15 @@ student-score-prediction-api/
 - Saves the trained model as a `.pkl` file
 - Serves the model with FastAPI
 - Accepts JSON input
-- Returns predicted exam score
+- Validates input values with Pydantic
+- Returns predicted exam score as JSON
 - Includes Swagger UI for testing the API
+- Provides a `/health` endpoint
 - Supports Docker containerization
 - Supports Docker Compose
 - Includes a container healthcheck using `/health`
+- Includes API unit tests with Pytest
+- Runs tests automatically with GitHub Actions CI
 
 ## Input Features
 
@@ -254,6 +274,25 @@ Response:
 }
 ```
 
+### Validation Error Example
+
+Request body:
+
+```json
+{
+  "hours_studied": -5,
+  "sleep_hours": 30,
+  "attendance_rate": 150,
+  "previous_score": -10
+}
+```
+
+Response status:
+
+```text
+422 Unprocessable Entity
+```
+
 ## How It Works
 
 The model is trained using Linear Regression.
@@ -301,6 +340,51 @@ Mean Absolute Error: 0.795
 Mean Squared Error: 0.730
 ```
 
+## Running Tests
+
+This project uses `pytest` for API tests.
+
+Run tests locally:
+
+```bash
+python -m pytest -v
+```
+
+The tests cover:
+
+- Health check endpoint
+- Successful prediction request
+- Input validation errors
+- Missing required fields
+
+Run tests inside Docker:
+
+```bash
+docker run --rm student-score-api pytest
+```
+
+## Continuous Integration
+
+This project uses GitHub Actions for CI.
+
+The CI workflow runs automatically on:
+
+- Pushes to the `main` branch
+- Pull requests targeting the `main` branch
+
+The workflow:
+
+1. Checks out the repository
+2. Sets up Python 3.12
+3. Installs dependencies from `requirements.txt`
+4. Runs the Pytest test suite
+
+Workflow file:
+
+```text
+.github/workflows/ci.yml
+```
+
 ## Example cURL Request
 
 ```bash
@@ -320,14 +404,15 @@ This project uses a small sample dataset for learning purposes.
 The goal is not to build a production-grade prediction model, but to understand the full workflow of:
 
 ```text
-Data → Model Training → Model Saving → API Serving → Dockerization → Prediction
+Data → Model Training → Model Saving → API Serving → Input Validation → Testing → CI → Dockerization → Prediction
 ```
 
 ## Future Improvements
 
 - Add a larger real-world dataset
 - Add stronger input validation rules
-- Add unit tests
-- Add CI/CD with GitHub Actions
+- Add more unit and integration tests
+- Add Docker image build checks in CI
 - Add Kubernetes manifests
+- Add monitoring and logging
 - Deploy the API to a cloud platform
