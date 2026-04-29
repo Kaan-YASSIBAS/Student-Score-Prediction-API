@@ -1,12 +1,25 @@
+from pathlib import Path
+
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 import pandas as pd
 import joblib
 
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI(title="Student Score Prediction API")
 
-model = joblib.load("app/model/student_score_model.pkl")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+MODEL_PATH = Path(__file__).resolve().parent / "model" / "student_score_model.pkl"
+model = joblib.load(MODEL_PATH)
 
 
 class StudentInput(BaseModel):

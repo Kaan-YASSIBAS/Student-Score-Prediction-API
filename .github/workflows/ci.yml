@@ -13,6 +13,10 @@ jobs:
     name: Run API Tests
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: backend
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -29,7 +33,4 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest -v
-
-      - name: Build Docker image
-        run: docker build -t student-score-api .
+          python -m pytest -v

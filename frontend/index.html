@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Score Prediction</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container">
+        <section class="card">
+            <h1>Student Score Prediction</h1>
+            <p class="subtitle">
+                Enter student information and predict the expected exam score using a Machine Learning model.
+            </p>
+
+            <form id="predictionForm">
+                <div class="form-group">
+                    <label for="hoursStudied">Hours Studied</label>
+                    <input
+                        type="number"
+                        id="hoursStudied"
+                        min="0"
+                        max="24"
+                        step="0.1"
+                        placeholder="Example: 7.5"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="sleepHours">Sleep Hours</label>
+                    <input
+                        type="number"
+                        id="sleepHours"
+                        min="0"
+                        max="24"
+                        step="0.1"
+                        placeholder="Example: 7"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="attendanceRate">Attendance Rate (%)</label>
+                    <input
+                        type="number"
+                        id="attendanceRate"
+                        min="0"
+                        max="100"
+                        step="0.1"
+                        placeholder="Example: 90"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="previousScore">Previous Score</label>
+                    <input
+                        type="number"
+                        id="previousScore"
+                        min="0"
+                        max="100"
+                        step="0.1"
+                        placeholder="Example: 74"
+                        required
+                    >
+                </div>
+
+                <button type="submit">Predict Score</button>
+            </form>
+
+            <div id="result" class="result hidden"></div>
+            <div id="error" class="error hidden"></div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
